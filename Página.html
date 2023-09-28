@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang='en'>
+    <head>
+            <meta charset='UTF-8'>
+            <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <script>
+                var bomb_avariada, maq_obstruida, vent_queimado, comp_queimado, maq_ineficiente, fuga;
+          
+                function updateValores(){
+                    ajaxLoad('getValores');
+                }
+                var ajaxRequest = null;
+                if (window.XMLHttpRequest){
+                    ajaxRequest =new XMLHttpRequest();
+                } else {
+                    ajaxRequest =new ActiveXObject('Microsoft.XMLHTTP');
+                }
+                
+                function ajaxLoad(ajaxURL){
+                    if(!ajaxRequest){ 
+                        alert('AJAX is not supported.'); 
+                        return; 
+                    }
+                  
+                    ajaxRequest.open('GET',ajaxURL,true);
+                    ajaxRequest.onreadystatechange = function(){
+                        if(ajaxRequest.readyState == 4 && ajaxRequest.status==200){
+                            var ajaxResult = ajaxRequest.responseText;
+                            console.log(ajaxResult);
+                            var tmpArray = ajaxResult.split('|');
+                            document.getElementById('Cond_1').innerHTML = tmpArray[0];
+                            document.getElementById('Cond_2').innerHTML = tmpArray[1];
+                            document.getElementById('Agua_1').innerHTML = tmpArray[2];
+                            document.getElementById('Ambi_1').innerHTML = tmpArray[3];
+                            document.getElementById('Vent_1').innerHTML = tmpArray[4];
+                            document.getElementById('Bomb_1').innerHTML = tmpArray[5];
+                            document.getElementById('Comp_1').innerHTML = tmpArray[6];
+                            maq_obstruida = tmpArray[7];
+                            vent_queimado = tmpArray[8];
+                            comp_queimado = tmpArray[9];
+                            bomb_avariada = tmpArray[10];
+                            maq_ineficiente = tmpArray[11];
+                            fuga = tmpArray[12];
+
+                            if(bomb_avariada || maq_obstruida || vent_queimado || comp_queimado || maq_ineficiente || fuga)
+                                document.getElementById('titulo_avarias').innerHTML = 'Alertas de Avarias:';
+                            else
+                                document.getElementById('titulo_avarias').innerHTML = '';
+            
+                            if(bomb_avariada)
+                                document.getElementById('bomba_avariada').innerHTML = 'Bomba Avariada';
+                            else
+                                document.getElementById('bomba_avariada').innerHTML = '';
+        
+                            if(maq_obstruida)
+                                document.getElementById('obstruida').innerHTML = 'Máquina Obstruida';
+                            else
+                                document.getElementById('obstruida').innerHTML = '';
+        
+                            if(vent_queimado)
+                                document.getElementById('ventilador').innerHTML = 'Ventilador Avariado';
+                            else
+                                document.getElementById('ventilador').innerHTML = '';
+        
+                            if(comp_queimado)
+                                document.getElementById('compressor').innerHTML = 'Compressor Avariado';
+                            else
+                                document.getElementById('compressor').innerHTML = '';
+                    
+                            if(maq_ineficiente)
+                                document.getElementById('ineficiencia').innerHTML = 'Máquina com Ineficiencia no Funcionamento';
+                            else
+                                document.getElementById('ineficiencia').innerHTML = '';
+        
+                            if(fuga)
+                                document.getElementById('fuga').innerHTML = 'Fuga no Compressor';
+                            else
+                                document.getElementById('fuga').innerHTML = '';
+                        }
+                    }
+                    ajaxRequest.send();
+                }
+
+                var myVar1 = setInterval(updateValores, 5000);
+            </script>
+
+    <title>Projeto Integrador</title>
+
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body{
+        background-image: url('https://images8.alphacoders.com/413/thumb-1920-413078.jpg');
+        background-size: cover;
+    }
+
+    header{
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    header menu{
+        width: 100%;
+    }
+
+    header .item_menu{
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        float: left;
+        padding: 5px 10px;
+        color: rgb(235, 230, 230);
+    }
+
+    header h1{
+        position: relative;
+        left: 10%;
+        width: 80%;
+        padding: 10px 0 10px 0;
+        text-align: center;
+        color: white;
+        font-weight: 500;
+        background-color: rgba(165, 108, 22, 0.082);
+    }
+
+    main .fundo{
+        width: 100%;
+        height: auto;
+        text-align: center;
+        position: relative;
+    }
+
+    main .fundo .alerta h2{
+        font-size: 25px;
+        font-weight: 500;
+        padding-bottom: 17px;
+    }
+
+    main .dados{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+    main .dados .box{
+        padding: 40px 0;
+        background-color: rgba(58, 51, 51, 0.781);
+    }
+
+    main .dados .mini{
+        float: left;
+        width: 50%;
+        color: white;
+    }
+
+    main .dados .box .title{
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 400;
+        letter-spacing: 2px;
+        padding-left: 2%;
+        padding-bottom: 20px;
+        font-size: 17px;
+    }
+
+    main .dados .mini p{
+        font-size: 20px;
+        letter-spacing: 1px;
+        padding: 5px 0;
+        /*color: rgb(55, 58, 238);*/
+    }
+
+    main .avarias{
+        position: relative;
+        width: 80%;
+        left: 10%;
+        padding: 0;
+        font-size: 25px;
+        font-variant: small-caps;
+        color: white;
+        background-color: rgba(138, 19, 19, 0.600);
+    }
+
+    .container{
+        float: left;
+        width: 50%;
+        border-right: solid 2px rgb(214, 205, 205);
+        padding-left: 2%;
+        height: 180px;
+    }
+
+    .alerta{
+        padding-top: 40px;
+    }
+
+    #titulo_avarias{
+        color: rgb(241, 115, 115);
+        letter-spacing: 1px;
+    }
+
+    .clear{
+        clear: both;
+    }
+
+</style>
+</head>
+
+<body>
+    <header>
+        <menu>
+            <li class='item_menu'>home
+            <li class='item_menu'>nosso trabalho
+            <li class='item_menu'>nosso grupo
+            <li class='clear'>
+        </menu>
+        <div class='titulo_principal'>
+            <h1>Deteção de Avarias
+            </h1>
+        </div>
+    </header>
+
+    <main>
+        <div class='fundo'>
+            <div class='box alerta'>
+                <h2 id='titulo_avarias'>Avarias</h2>
+                <div class='avarias' id='bomba_avariada'>Bomba Avariada: NaN</div>
+                <div class='avarias' id='obstruida'>Máquina Obstruída: NaN</div>
+                <div class='avarias' id='ventilador'>Ventilador Avariado: NaN</div>
+                <div class='avarias' id='compressor'>Compressor Avariado: NaN</div>
+                <div class='avarias' id='ineficiencia'>Ineficiência na Máquina: NaN</div>
+                <div class='avarias' id='fuga'>Fuga na Máquina: NaN</div>
+            </div>
+        </div>
+        <div class='dados'>
+            <div class='box container'>
+                <div class='mini'>
+                    <h2 class='title'>Temperaturas:</h2>
+                </div>
+                <div class='mini'>
+                    <div>
+                        <p>
+                            <span>Condensador Entrada: </span>
+                            <span id='Cond_1'>NaN</span> 
+                            <span> ºC</span>
+                        </p>
+                    </div>
+    
+                    <div>
+                        <p>
+                            <span>Condensador Saída: </span>
+                            <span id='Cond_2'>NaN</span>
+                            <span> ºC</span>
+                        </p>
+                    </div>
+
+                    <div>
+                        <p>
+                            <span>Água: </span>
+                            <span id='Agua_1'>NaN</span>
+                            <span> ºC</span>
+                        </p>
+                    </div>
+
+                    <div>
+                        <p>
+                            <span>Ambiente: </span>
+                            <span id='Ambi_1'>NaN</span>
+                            <span> ºC</span>
+                        </p>
+                    </div>
+                </div>
+                <div class='clear'></div>
+                
+            </div>
+    
+            <div class='box container'>
+                <div class='mini'>
+                    <h2 class='title'>Correntes:</h2>
+                </div>
+
+                <div class='mini'>
+                    <div>
+                        <p>
+                            <span>Bomba: </span>      
+                            <span id='Bomb_1'>NaN</span>
+                            <span> A</span> 
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            <span>Ventilador: </span>
+                            <span id='Vent_1'>NaN</span>
+                            <span> A</span> 
+                        </p>
+                    </div>
+                    <div>
+                        <p>
+                            <span>Compressor: </span>
+                            <span id='Comp_1'>NaN</span>
+                            <span> A</span>
+                        </p>
+                    </div>
+                </div>
+                <div class='clear'></div>
+                
+            </div>
+            <div class='clear'></div>
+        </div>
+    </main>
+</body>
+</html>
